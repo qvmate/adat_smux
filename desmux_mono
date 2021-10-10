@@ -1,0 +1,51 @@
+desc:desmux_mono
+//Copyright 2021  Akira Katsurada
+//Released under the MIT license
+// See  https://opensource.org/licenses/mit-license.php
+
+//tags: utility processing decode adat s/mux
+//author: QVmember20210901
+
+
+in_pin:Input 1
+
+out_pin:Output 1
+out_pin:Output 2
+
+
+slider1:1<0,1,1>Chslider1
+
+
+@init
+framebit = 0
+
+@sample
+
+framebit >1  ?  framebit = 0;
+
+framebit == slider1  ? (
+
+//ES-6decode input 
+
+data_t = spl0;
+
+// ES6 decode output
+spl0 = data0;   
+spl1 = data1;
+);
+
+
+
+framebit == abs(slider1-1)  ? (
+
+//ES-6 decode input
+data0 = data_t ;
+data1 = spl0;
+
+
+//ES-6decode output
+spl0 = data0;  
+spl1 = data1;
+);
+
+framebit += 1;
